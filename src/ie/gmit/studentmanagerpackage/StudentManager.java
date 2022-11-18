@@ -78,10 +78,10 @@ public class StudentManager implements Serializable {
 		StringBuilder sb = new StringBuilder();
 		int counter = 1;
 
-		sb.append(String.format("%-20s%-20s%-20s%-20s%-20s\n", "No.", "ID", "Name", "Surname", "Year Of Study"));
+		sb.append(String.format("%-20s%-20s%-20s%-20s%-20s\n", "No.", "ID", "Name", "Age"));
 		sb.append(String.format("===============================================================\n"));
 
-		// sb.append("No.\tID\t\t\t\tName\t\t\tSurname\t\t\tYear of Study\n");
+		// sb.append("No.\tID\t\t\t\tName\t\t\tFirstName\t\t\tAge\n");
 		// sb.append("----------------------------------------------------------\n");
 		for (Student student : this.studentList) {
 			sb.append(counter + ": " + student.findAllFieldValuesInCSVFormat().replace(",", "\t\t") + "\n");
@@ -110,8 +110,7 @@ public class StudentManager implements Serializable {
 				// System.out.println(bufferData);
 				String[] studentFieldValues = bufferData.split(",");
 				// System.out.println(Arrays.toString(studentFieldValues));
-				Student newStudent = new Student(studentFieldValues[0], studentFieldValues[1], studentFieldValues[2],
-						Integer.parseInt(studentFieldValues[3]));
+				Student newStudent = new Student(studentFieldValues[0], studentFieldValues[1],Integer.parseInt(studentFieldValues[2]));
 				this.addStudent(newStudent); // Add student to the studentList
 			}
 			System.out.println("Loaded Students List from CSV file successfully!");
@@ -139,12 +138,11 @@ public class StudentManager implements Serializable {
 		try {
 			studentFileWriterStream = new FileWriter(studentDBFile);
 			bufferedstudentFileWriterStream = new BufferedWriter(studentFileWriterStream);
-			bufferedstudentFileWriterStream.write("ID,First Name,Surname,Year of Study" + "\n");
+			bufferedstudentFileWriterStream.write("ID,First Name,Age" + "\n");
 
 			// Write out student data from studentList to buffer and flush it to CSV file
 			for (Student studentObject : studentList) {
-				bufferedstudentFileWriterStream.write(studentObject.getStudentId() + "," + studentObject.getFirstName()
-						+ "," + studentObject.getSurname() + "," + studentObject.getYearOfStudy() + "\n");
+				bufferedstudentFileWriterStream.write(studentObject.getStudentId() + "," + studentObject.getFirstName() + "," + studentObject.getAge() + "\n");
 				// bufferedstudentFileWriterStream.write(studentObject.findAllFieldValuesInCSVFormat()
 				// + "\n");
 				bufferedstudentFileWriterStream.flush(); // Flushes buffer which transfers buffer data to the file

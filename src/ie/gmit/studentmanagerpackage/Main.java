@@ -40,8 +40,8 @@ public class Main extends Application {
 		tfStudentFirstName.setPromptText("First Name");
 		TextField tfStudentSurname = new TextField();
 		tfStudentSurname.setPromptText("Surname");
-		TextField tfStudentYearOfStudy = new TextField();
-		tfStudentYearOfStudy.setPromptText("Year of Study");
+		TextField tfStudentAge = new TextField();
+		tfStudentAge.setPromptText("Agee");
 		// Delete Student
 		Button btnDelStudent = new Button("Delete Student");
 		TextField tfStudentDel = new TextField();
@@ -66,8 +66,7 @@ public class Main extends Application {
 		gridPane1.add(btnAddStudent, 0, 2);
 		gridPane1.add(tfStudentID, 1, 2);
 		gridPane1.add(tfStudentFirstName, 2, 2);
-		gridPane1.add(tfStudentSurname, 3, 2);
-		gridPane1.add(tfStudentYearOfStudy, 4, 2);
+		gridPane1.add(tfStudentAge, 4, 2);
 		gridPane1.add(btnDelStudent, 0, 3);
 		gridPane1.add(tfStudentDel, 1, 3);
 		gridPane1.add(btnShowTotal, 0, 4);
@@ -109,24 +108,21 @@ public class Main extends Application {
 
 			// If any of the Student fields are empty print prompt message
 			if (tfStudentID.getText().trim().equals("") || tfStudentFirstName.getText().trim().equals("")
-					|| tfStudentSurname.getText().trim().equals("")
-					|| tfStudentYearOfStudy.getText().trim().equals("")) {
+					|| tfStudentAge.getText().trim().equals("")) {
 				taMyOutput.setText("Please enter ALL Student details\n");
 			} else {
 				// Create new Student with information in text fields
 				try {
-					Student newStudent = new Student(tfStudentID.getText(), tfStudentFirstName.getText(),
-							tfStudentSurname.getText(), Integer.parseInt(tfStudentYearOfStudy.getText()));
+					Student newStudent = new Student(tfStudentID.getText(), tfStudentFirstName.getText(), Integer.parseInt(tfStudentAge.getText()));
 					this.sm.addStudent(newStudent); // Add student to student list
 					// Print success message
-					taMyOutput.setText(newStudent.getFirstName() + " " + newStudent.getSurname()
-							+ " has been added to the student list");
+					taMyOutput.setText(newStudent.getFirstName() + " has been added to the student list");
 
 					// Clear input fields
 					tfStudentID.clear();
 					tfStudentFirstName.clear();
 					tfStudentSurname.clear();
-					tfStudentYearOfStudy.clear();
+					tfStudentAge.clear();
 				} catch (NumberFormatException ex) {
 					ex.printStackTrace();
 					taMyOutput.setText("Please enter a number for Student Year of Study");
@@ -145,7 +141,7 @@ public class Main extends Application {
 				Student removedStudent;
 				removedStudent = sm.deleteStudentByNumber(Integer.parseInt(tfStudentDel.getText()));
 				if (removedStudent != null) {
-					taMyOutput.setText(removedStudent.getFirstName() + " " + removedStudent.getSurname()
+					taMyOutput.setText(removedStudent.getStudentId() + " " + removedStudent.getFirstName()
 							+ " has been removed from the student list!");
 					tfStudentDel.clear();
 				} else {

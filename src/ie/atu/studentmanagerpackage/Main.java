@@ -82,7 +82,7 @@ public class Main extends Application {
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 			// Choose file
 			File studentBinFile = fileChooser.showOpenDialog(primaryStage);
-			// Load students from CSV file
+			// Read students from binary file
 			sm = sm.readStudentManagerObjectFromFile(studentBinFile.getAbsolutePath());
 			// Display message to user in TextArea node taMyOutput	
 			if (sm == null) {

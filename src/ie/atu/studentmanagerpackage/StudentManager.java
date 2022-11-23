@@ -25,7 +25,7 @@ public class StudentManager implements Serializable {
 	 * serialVersionUID is used to ensure that the same class is being used when
 	 * deserializing an object
 	 */
-	public static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 2L;
 
 	// Instance Variables
 	private List<Student> studentList;
@@ -359,26 +359,6 @@ public class StudentManager implements Serializable {
 			} // End catch
 		} // End finally
 		return studentManagerObjectReadIn; // Returns null if no object is read in.
-	}
-
-	public String listAllStudnets() {
-		// Create a StringBuilder object
-		StringBuilder sb = new StringBuilder();
-		int counter = 1;
-
-		sb.append(String.format("\n", "No.", "ID", "Name", "Age"));
-		sb.append(String.format("===============================================================\n"));
-
-		// sb.append("No.\tID\t\t\t\tName\t\t\tFirstName\t\t\tAge\n");
-		// sb.append("----------------------------------------------------------\n");
-		for (Student student : this.studentList) {
-			sb.append(counter + ": " + student.findAllFieldValuesInCSVFormat().replace(",", "\t\t") + "\n");
-			// sb.append(String.format("%-20s%-20\n",counter,
-			// student.findAllFieldValuesInCSVFormat().replace(",", "\t\t") + "\n"));
-			counter++;
-		}
-
-		return sb.toString();
 	}
 
 } // End Class

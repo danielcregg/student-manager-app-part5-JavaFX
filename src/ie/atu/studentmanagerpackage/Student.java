@@ -1,7 +1,6 @@
 package ie.atu.studentmanagerpackage;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 
 public class Student implements Serializable {
 
@@ -16,7 +15,7 @@ public class Student implements Serializable {
 	private String firstName;
 	private int age;
 
-	// Constructors
+	// Constructor
 	public Student(String studentId, String name, int age) {
 		this.studentId = studentId;
 		this.firstName = name;
@@ -104,39 +103,5 @@ public class Student implements Serializable {
 	public String toString() {
 		return this.studentId + "," + this.firstName + "," + this.age;
 	}
-	
-	public String findAllFieldValuesInCSVFormat() {
-		StringBuilder listOfFields = new StringBuilder();
-		//String newLine = System.getProperty("line.separator");
-		
-		// determine fields declared in this class only (no fields of superclass)
-		Field[] fields = this.getClass().getDeclaredFields();
 
-		// print field names
-		for (Field field : fields) {
-		//	result.append("  ");
-		try {
-			// discard static fields
-			if (!java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
-				//listOfFields.append(field.getName());
-				//requires access to private field:
-				listOfFields.append( field.get(this) );
-				listOfFields.append(",");
-		    }	
-				// requires access to private field:
-				//result.append(field.get(this));
-			} catch (IllegalAccessException ex) {
-				System.out.println(ex);
-			}
-			//result.append(newLine);
-		}
-		// Remove comma at end
-		if( listOfFields.length() > 0 ) {
-			listOfFields.setLength( listOfFields.length() - 1 );
-			//listOfFields.append(newLine); 
-		}
-
-		return listOfFields.toString();
-	}
-
-}
+} // End of Student class

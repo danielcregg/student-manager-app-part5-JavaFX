@@ -22,15 +22,18 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
-		// Createa all requred nodes
+		// Create all requred nodes
 		GridPane gridPane1 = new GridPane(); // Create gridpane node to use as root node of scene
 		// Create child nodes
-		Text txtHeader = new Text("Please select an option below:"); // Create Text node for top of scene 1
-		// Create button and file chooser for loading students from CSV file 
-		
-        Button btnSelectCSVFile = new Button("Get Students from CSV File");
+
+		// Create Text node for label at top of scene 1
+		Text txtHeader = new Text("Please select an option below:");
+
+		// Create button and file chooser for loading students from CSV file
+		Button btnSelectCSVFile = new Button("Get Students from CSV File");
 		FileChooser fileChooser = new FileChooser();
-		// Add Student Button and text fields
+
+		// Add Student Button and 3 text fields for entering student details
 		Button btnAddStudent = new Button("Add Student");
 		TextField tfStudentID = new TextField();
 		tfStudentID.setPromptText("Student ID");
@@ -38,27 +41,33 @@ public class Main extends Application {
 		tfStudentFirstName.setPromptText("First Name");
 		TextField tfStudentAge = new TextField();
 		tfStudentAge.setPromptText("Age");
-		Button btnDelStudent = new Button("Delete Student");
+
+		// Create a button and text field to take a Student ID for deleting a student
+		// from the list
+		Button btnRemoveStudent = new Button("Remove Student");
 		TextField tfDelStudent = new TextField();
 		tfDelStudent.setPromptText("Student ID");
+
 		// Show total number of students
 		Button btnShowTotal = new Button("Show Total Students");
 		Button btnShowStudentList = new Button("Show Student List");
 		Button btnSave = new Button("Save List to binary file");
 		FileChooser fileChooser2 = new FileChooser();
-		// Add Quit button
+
+		// Create a Quit button
 		Button btnQuit = new Button("Quit");
+
 		// Create TextArea node for bottom of scene 1 to display output
 		TextArea taMyOutput = new TextArea();
-		
+
 		// Adding and arranging all the nodes in the grid - add(node, column, row)
 		gridPane1.add(txtHeader, 0, 0);
-		gridPane1.add(btnSelectCSVFile, 0, 1);	
+		gridPane1.add(btnSelectCSVFile, 0, 1);
 		gridPane1.add(btnAddStudent, 0, 2);
 		gridPane1.add(tfStudentID, 1, 2);
 		gridPane1.add(tfStudentFirstName, 2, 2);
 		gridPane1.add(tfStudentAge, 4, 2);
-		gridPane1.add(btnDelStudent, 0, 3);
+		gridPane1.add(btnRemoveStudent, 0, 3);
 		gridPane1.add(tfDelStudent, 1, 3);
 		gridPane1.add(btnShowTotal, 0, 4);
 		gridPane1.add(btnShowStudentList, 0, 5);
@@ -72,36 +81,38 @@ public class Main extends Application {
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 			// Choose file
 			File studentCSVFile = fileChooser.showOpenDialog(primaryStage);
-			//File studentCSVFile = new File(tfLoadStudentFilePath.getText());
+			// File studentCSVFile = new File(tfLoadStudentFilePath.getText());
 			sm.readStudentDataFromCSVFile(studentCSVFile.getAbsolutePath());
 			// sm.saveStudentManagerObjectToFile(studentObjectsFile);
-			//sm = sm.loadStudentManagerObjectFromFile(studentObjectsFile);
+			// sm = sm.loadStudentManagerObjectFromFile(studentObjectsFile);
 			if (sm == null) {
 				taMyOutput.setText("ERROR: File path does not exist\n" + studentCSVFile.getAbsolutePath());
 			} else {
 				taMyOutput.setText("Students loaded successfully from:\n" + studentCSVFile.getAbsolutePath());
 			}
-        });
+		});
 
 		// Add action to button to save students from binary file
 		btnSave.setOnAction(e -> {
 			// Set initial directory to current directory
 			fileChooser2.setInitialDirectory(new File(System.getProperty("user.dir")));
-			//Opening a dialog box
+			// Opening a dialog box
 			sm.writeStudentManagerObjectToFile(fileChooser.showSaveDialog(primaryStage).getAbsolutePath());
 		});
 
 		// Add Student button action
 		btnAddStudent.setOnAction(e -> {
 			// If any of the Student fields are empty print prompt message
-			try { 
-				if (Student.isValid(tfStudentID.getText(), tfStudentFirstName.getText(), Integer.parseInt(tfStudentAge.getText())) == false) {
+			try {
+				if (Student.isValid(tfStudentID.getText(), tfStudentFirstName.getText(),
+						Integer.parseInt(tfStudentAge.getText())) == false) {
 					taMyOutput.setText("Please enter valid Student details\n");
 				} else {
 					// Create new Student with information in text fields
-				
+
 					// Add student to student list
-					if (sm.addStudentToList(tfStudentID.getText(), tfStudentFirstName.getText(), Integer.parseInt(tfStudentAge.getText()))){
+					if (sm.addStudentToList(tfStudentID.getText(), tfStudentFirstName.getText(),
+							Integer.parseInt(tfStudentAge.getText()))) {
 						taMyOutput.setText("Student added to list successfully\n");
 					} else {
 						taMyOutput.setText("Student not added to list\n");
@@ -117,11 +128,11 @@ public class Main extends Application {
 			}
 		});
 
-		// Delete Student button action
-		btnDelStudent.setOnAction(e -> {
+		// Remove Student button action
+		btnRemoveStudent.setOnAction(e -> {
 
 			if (tfDelStudent.getText().trim().equals("")) { // If text field is empty
-				taMyOutput.setText("Please enter the Student Number you want to delete");
+				taMyOutput.setText("Please enter the Student Number you want to remove");
 			} else {
 				boolean status;
 				status = sm.removeStudentFromList(tfDelStudent.getText());
@@ -130,7 +141,7 @@ public class Main extends Application {
 					tfDelStudent.clear();
 				} else {
 					taMyOutput.setText("Student " + tfDelStudent.getText() + " not found\n");
-					taMyOutput.appendText("No student deleted!");
+					taMyOutput.appendText("No student removed!");
 					tfDelStudent.clear();
 				}
 			}
@@ -144,27 +155,40 @@ public class Main extends Application {
 
 		// Show list of students
 		btnShowStudentList.setOnAction(e -> {
-
-			taMyOutput.setText(sm.listAllStudnets());
-
+			// If student list is empty
+			if (sm.getStudentList().size() == 0) {
+				taMyOutput.setText("Student list is empty");
+			} else {
+				taMyOutput.setText("Student ID,First Name,Age" + "\n");
+				taMyOutput.appendText("---------------------------------------------" + "\n");
+				for (Student student : sm.getStudentList()) {
+					taMyOutput.appendText(
+							student.getStudentId() + "," + student.getFirstName() + "," + student.getAge() + "\n");
+				}
+			}
 		});
 
 		// Quit button action
-		btnQuit.setOnAction(e -> Platform.exit());
+		btnQuit.setOnAction(e -> 
+			Platform.exit()
+		);
+
+		// ==== All nodes now added to the scene and actions configured ====
 
 		// Create scene and add the root node i.e. the gridpane
 		Scene scene1 = new Scene(gridPane1, 600, 450);
 		// Preparing the Stage (i.e. the container of any JavaFX application)
 		// Set Stage Title
 		primaryStage.setTitle("Student Manager Application");
-		// Setting the scene to Stage
+		// Setting the scene on which this stage will show
 		primaryStage.setScene(scene1);
-		// Displaying the stage
+		// Display the stage
 		primaryStage.show();
 
-	}// End Start Method
+	} // End Start Method
 
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 } // End Main Class

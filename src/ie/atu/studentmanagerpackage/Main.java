@@ -22,15 +22,16 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
-		// Create all requred nodes
+		// Create a GridPane to hold the GUI nodes
 		GridPane gridPane1 = new GridPane(); // Create gridpane node to use as root node of scene
+		
 		// Create child nodes
 
 		// Create Text node for label at top of scene 1
 		Text txtHeader = new Text("Please select an option below:");
 
 		// Create button and file chooser for loading students from CSV file
-		Button btnSelectCSVFile = new Button("Get Students from CSV File");
+		Button btnSelectCSVFile = new Button("Add students from CSV File");
 		FileChooser fileChooser = new FileChooser();
 
 		// Add Student Button and 3 text fields for entering student details
@@ -75,29 +76,20 @@ public class Main extends Application {
 		gridPane1.add(btnQuit, 0, 7);
 		gridPane1.add(taMyOutput, 0, 8, 5, 1);
 
-		// Add action to button to load students from CSV file
+		// Add action to button to load students from CSV file e.g. "students.csv"
 		btnSelectCSVFile.setOnAction(e -> {
 			// Set initial directory to current directory
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 			// Choose file
 			File studentCSVFile = fileChooser.showOpenDialog(primaryStage);
-			// File studentCSVFile = new File(tfLoadStudentFilePath.getText());
+			// Load students from CSV file
 			sm.readStudentDataFromCSVFile(studentCSVFile.getAbsolutePath());
-			// sm.saveStudentManagerObjectToFile(studentObjectsFile);
-			// sm = sm.loadStudentManagerObjectFromFile(studentObjectsFile);
+			// Display message to user in TextArea node taMyOutput	
 			if (sm == null) {
 				taMyOutput.setText("ERROR: File path does not exist\n" + studentCSVFile.getAbsolutePath());
 			} else {
 				taMyOutput.setText("Students loaded successfully from:\n" + studentCSVFile.getAbsolutePath());
 			}
-		});
-
-		// Add action to button to save students from binary file
-		btnSave.setOnAction(e -> {
-			// Set initial directory to current directory
-			fileChooser2.setInitialDirectory(new File(System.getProperty("user.dir")));
-			// Opening a dialog box
-			sm.writeStudentManagerObjectToFile(fileChooser.showSaveDialog(primaryStage).getAbsolutePath());
 		});
 
 		// Add Student button action
@@ -109,7 +101,6 @@ public class Main extends Application {
 					taMyOutput.setText("Please enter valid Student details\n");
 				} else {
 					// Create new Student with information in text fields
-
 					// Add student to student list
 					if (sm.addStudentToList(tfStudentID.getText(), tfStudentFirstName.getText(),
 							Integer.parseInt(tfStudentAge.getText()))) {
@@ -117,7 +108,7 @@ public class Main extends Application {
 					} else {
 						taMyOutput.setText("Student not added to list\n");
 					}
-					// Clear input fields
+					// Clear input fields for next student
 					tfStudentID.clear();
 					tfStudentFirstName.clear();
 					tfStudentAge.clear();
@@ -166,6 +157,14 @@ public class Main extends Application {
 							student.getStudentId() + "," + student.getFirstName() + "," + student.getAge() + "\n");
 				}
 			}
+		});
+
+		// Add action to button to save students to binary file (e.g. students.ser)
+		btnSave.setOnAction(e -> {
+			// Set initial directory to current directory
+			fileChooser2.setInitialDirectory(new File(System.getProperty("user.dir")));
+			// Opening a dialog box to choose file to save to (e.g. students.ser)
+			sm.writeStudentManagerObjectToFile(fileChooser.showSaveDialog(primaryStage).getAbsolutePath());
 		});
 
 		// Quit button action

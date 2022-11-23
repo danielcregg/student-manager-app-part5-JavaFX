@@ -30,8 +30,8 @@ public class Main extends Application {
 		// Create Text node for label at top of scene 1
 		Text txtHeader = new Text("Please select an option below:");
 
-		// Create button and file chooser for loading students from CSV file
-		Button btnSelectCSVFile = new Button("Add students from CSV File");
+		// Create button and file chooser for loading student list from binary file
+		Button btnSelectBinFile = new Button("Add students from bin file");
 		FileChooser fileChooser = new FileChooser();
 
 		// Add Student Button and 3 text fields for entering student details
@@ -63,7 +63,7 @@ public class Main extends Application {
 
 		// Adding and arranging all the nodes in the grid - add(node, column, row)
 		gridPane1.add(txtHeader, 0, 0);
-		gridPane1.add(btnSelectCSVFile, 0, 1);
+		gridPane1.add(btnSelectBinFile, 0, 1);
 		gridPane1.add(btnAddStudent, 0, 2);
 		gridPane1.add(tfStudentID, 1, 2);
 		gridPane1.add(tfStudentFirstName, 2, 2);
@@ -76,19 +76,19 @@ public class Main extends Application {
 		gridPane1.add(btnQuit, 0, 7);
 		gridPane1.add(taMyOutput, 0, 8, 5, 1);
 
-		// Add action to button to load students from CSV file e.g. "students.csv"
-		btnSelectCSVFile.setOnAction(e -> {
+		// Add action to button to load student list from binary file e.g. "students.ser"
+		btnSelectBinFile.setOnAction(e -> {
 			// Set initial directory to current directory
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 			// Choose file
-			File studentCSVFile = fileChooser.showOpenDialog(primaryStage);
+			File studentBinFile = fileChooser.showOpenDialog(primaryStage);
 			// Load students from CSV file
-			sm.readStudentDataFromCSVFile(studentCSVFile.getAbsolutePath());
+			sm = sm.readStudentManagerObjectFromFile(studentBinFile.getAbsolutePath());
 			// Display message to user in TextArea node taMyOutput	
 			if (sm == null) {
-				taMyOutput.setText("ERROR: File path does not exist\n" + studentCSVFile.getAbsolutePath());
+				taMyOutput.setText("ERROR: File path does not exist\n" + studentBinFile.getAbsolutePath());
 			} else {
-				taMyOutput.setText("Students loaded successfully from:\n" + studentCSVFile.getAbsolutePath());
+				taMyOutput.setText("Students loaded successfully from:\n" + studentBinFile.getAbsolutePath());
 			}
 		});
 

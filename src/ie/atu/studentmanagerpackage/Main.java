@@ -2,7 +2,6 @@ package ie.atu.studentmanagerpackage;
 
 import java.io.File;
 import java.util.stream.Collectors;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -14,9 +13,6 @@ import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
-/**
- * The Main class holds the main method.
- */
 public class Main extends Application {
 
 	StudentManager sm = new StudentManager(); // Used for managing students

@@ -1,6 +1,8 @@
 package ie.atu.studentmanagerpackage;
 
 import java.io.File;
+import java.util.stream.Collectors;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -146,16 +148,13 @@ public class Main extends Application {
 
 		// Show list of students
 		btnShowStudentList.setOnAction(e -> {
-			// If student list is empty
-			if (sm.getStudentList().size() == 0) {
+			if (sm.getStudentList().isEmpty()) {
 				taMyOutput.setText("Student list is empty");
 			} else {
-				taMyOutput.setText("Student ID,First Name,Age" + "\n");
-				taMyOutput.appendText("---------------------------------------------" + "\n");
-				for (Student student : sm.getStudentList()) {
-					taMyOutput.appendText(
-							student.getStudentId() + "," + student.getFirstName() + "," + student.getAge() + "\n");
-				}
+				String studentData = sm.getStudentList().stream()
+					.map(student -> student.getStudentId() + "," + student.getFirstName() + "," + student.getAge() + "\n")
+					.collect(Collectors.joining());
+				taMyOutput.setText("Student ID,First Name,Age\n---------------------------------------------\n" + studentData);
 			}
 		});
 
@@ -177,7 +176,7 @@ public class Main extends Application {
 		// Create scene and add the root node i.e. the gridpane
 		Scene scene1 = new Scene(gridPane1, 600, 450);
 		// Preparing the Stage (i.e. the container of any JavaFX application)
-		// Set Stage Title
+		// Set Stage TitleUse Java 8 Streams: When checking if the student list is empty and iterating over it, you can use Java 8 streams for more readable and efficient code.
 		primaryStage.setTitle("Student Manager Application");
 		// Setting the scene on which this stage will show
 		primaryStage.setScene(scene1);

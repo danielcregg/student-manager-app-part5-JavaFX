@@ -13,9 +13,7 @@ import java.io.InvalidClassException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
 import java.io.Serializable;
-import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -212,13 +210,13 @@ public class StudentManager implements Serializable {
 			}
 			System.out.println("Student data read from CSV file located at " + pathToStudentCSVFile);
 		} catch (NullPointerException npExc) {
-			System.err.println("ERROR: Students NOT saved to file!");
+			System.err.println("ERROR: Students NOT read from file!");
 			npExc.printStackTrace();
 		} catch (FileNotFoundException fnfExc) {
-			System.err.println("ERROR: Students NOT saved to file!");
+			System.err.println("ERROR: Students NOT read from file!");
 			fnfExc.printStackTrace();
 		} catch (IOException IOExc) {
-			System.err.println("ERROR: Students NOT saved to file!");
+			System.err.println("ERROR: Students NOT read from file!");
 			IOExc.printStackTrace();
 		} finally {
 			try {
@@ -274,7 +272,7 @@ public class StudentManager implements Serializable {
 				npExc.printStackTrace();
 			} catch (IOException ioExc) {
 				ioExc.printStackTrace();
-			} // End catchEnd catch
+			} // End catch
 		} // End finally
 	} // End Save method
 

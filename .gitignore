@@ -95,6 +95,9 @@ hs_err_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java
 
+# Serialized files
+*.ser
+
 ### macOS ###
 .DS_Store
 

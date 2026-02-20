@@ -67,7 +67,7 @@ public class Student implements Serializable {
 		}
 	}
 
-	// Check if student ID is valid
+	// Check if first name is valid
 	public static boolean firstNameIsValid(String firstName) {
 		if (firstName == null) {
 			System.err.println("First name can not be null");
@@ -76,14 +76,14 @@ public class Student implements Serializable {
 			System.err.println("First name must be at least 2 characters long");
 			return false;
 		} else if (!firstName.matches("[a-zA-Z]+")) {
-			System.err.println("First name must conatin Upper and lover case letters only");
+			System.err.println("First name must contain upper and lower case letters only");
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	// Check if student ID is valid
+	// Check if age is valid
 	public static boolean ageIsValid(int age) {
 		if (age < 16 || age > 130) {
 			System.err.println("Student must be at least 16 years old and less than 130 years old");

@@ -172,7 +172,7 @@ public class Main extends Application {
 		// Create scene and add the root node i.e. the gridpane
 		Scene scene1 = new Scene(gridPane1, 600, 450);
 		// Preparing the Stage (i.e. the container of any JavaFX application)
-		// Set Stage TitleUse Java 8 Streams: When checking if the student list is empty and iterating over it, you can use Java 8 streams for more readable and efficient code.
+		// Set Stage Title
 		primaryStage.setTitle("Student Manager Application");
 		// Setting the scene on which this stage will show
 		primaryStage.setScene(scene1);
